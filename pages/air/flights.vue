@@ -78,7 +78,6 @@ export default {
     //处理分页数据
     setDataList(arr) {
       if (arr) {
-        // console.log(arr);
         this.pageIndex = 1;
         this.flightsData.flights = arr;
         this.total = arr.length;
@@ -114,14 +113,14 @@ export default {
 
     //切换分页
     handleSizeChange(val) {
-      //   console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
       this.pageSize = val;
 
       this.setDataList();
     },
     //当前页
     handleCurrentChange(val) {
-      //   console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       this.pageIndex = val;
       this.setDataList();
     }
@@ -131,6 +130,7 @@ export default {
     this.getData();
   },
   watch: {
+    //监视路由改变
     $route(){
       this.getData();
     }

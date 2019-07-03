@@ -4,12 +4,12 @@
       <!-- 订单表单 -->
       <div class="main">
         <!-- 订单表单 -->
-        <OrderForm :data="infoData" @setAllPrice="setAllPrice" />
+        <OrderForm :data="infoData" @setAllPrice="setAllPrice" @setNum="setNum" />
       </div>
 
       <!-- 侧边栏 -->
       <div class="aside">
-        <OrderAside :data="infoData" :allPrice="allPrice" />
+        <OrderAside :data="infoData" :allPrice="allPrice" :num="num" />
       </div>
     </el-row>
   </div>
@@ -27,7 +27,8 @@ export default {
         insurances: [], // 初始化保险数据
         seat_infos: {}
       },
-      allPrice: 0
+      allPrice: 0,
+      num: 1
     };
   },
   components: {
@@ -47,8 +48,12 @@ export default {
     });
   },
   methods: {
+    //计算总价
     setAllPrice(price) {
       this.allPrice = price;
+    },
+    setNum(num) {
+      this.num = num;
     }
   }
 };

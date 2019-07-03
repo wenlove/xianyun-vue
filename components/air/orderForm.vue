@@ -101,11 +101,13 @@ export default {
         username: "",
         id: ""
       });
+      this.$emit("setNum", this.users.length);
     },
 
     // 移除乘机人
     handleDeleteUser(index) {
       this.users.splice(index, 1);
+      this.$emit("setNum", this.users.length);
     },
 
     // 发送手机验证码
@@ -207,7 +209,7 @@ export default {
   // 计算总价格
   computed: {
     allPrice() {
-      console.log(this.data);
+      // console.log(this.data);
       let price = 0;
       let len = this.users.length;
 
