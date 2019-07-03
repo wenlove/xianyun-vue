@@ -30,7 +30,8 @@ import QRCode from "qrcode";
 export default {
   data() {
     return {
-      price: 0
+      price: 0,
+      timer: null
     };
   },
   mounted() {
@@ -55,8 +56,56 @@ export default {
           width: 200
         });
         this.price = price;
+
+        //支付轮询
+        this.timer = setInterval(async() => {
+            const isResolve = await this.isPay(payInfo);
+            console.log(isResolve)
+            if(isResolve){
+                clearInterval(this.timer);
+                return;
+            }
+        }, 3000);
       });
     }, 10);
+  },
+  //销毁时清除定时器
+  destroyed() {
+    clearInterval(this.timer);
+  },
+  methods: {
+    // 检查付款状态
+    async isPay(data) {
+      const { id } = this.$route.query;
+      const { token } = this.$store.state.user.userInfo;
+
+      return this.$axios({
+        url: `/airorders/checkpay`,
+        method: "POST",
+        data: {
+          id,
+          nonce_str: data.nonce_str,
+          out_trade_no: data.order_no
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(res => {
+        const { statusTxt } = res.data;
+
+        if (statusTxt === "支付完成") {
+          this.$confirm("订单支付成功", "提示", {
+            confirmButtonText: "确定",
+            showCancelButton: false,
+            type: "success"
+          });
+
+          return Promise.resolve(true);
+        }
+
+        return Promise.resolve(false);
+      });
+    }
   }
 };
 </script>
