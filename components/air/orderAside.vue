@@ -55,7 +55,7 @@ export default {
     },
     num: {
       type: Number,
-      default: {}
+      default: 0
     }
   },
 

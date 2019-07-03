@@ -4,7 +4,7 @@
       <!-- 订单表单 -->
       <div class="main">
         <!-- 订单表单 -->
-        <OrderForm :data="infoData" @setAllPrice="setAllPrice" @setNum="setNum" />
+        <OrderForm :data="infoData" @setAllPrice="setAllPrice"  />
       </div>
 
       <!-- 侧边栏 -->
@@ -28,7 +28,7 @@ export default {
         seat_infos: {}
       },
       allPrice: 0,
-      num: 1
+      num: 1 //乘机人数
     };
   },
   components: {
@@ -49,10 +49,8 @@ export default {
   },
   methods: {
     //计算总价
-    setAllPrice(price) {
+    setAllPrice(price,num) {
       this.allPrice = price;
-    },
-    setNum(num) {
       this.num = num;
     }
   }

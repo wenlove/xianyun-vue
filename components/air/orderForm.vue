@@ -190,20 +190,29 @@ export default {
         headers: {
           Authorization: `Bearer ${token || "NO TOKEN"}`
         }
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          const { message } = err.response.data;
+      }).then(res => {
+        // console.log(res);
+        const { id } = res.data.data;
+        if (res.status === 200) {
+          this.$message.success("正在生成订单，请稍候...");
 
-          // 警告提示
-          this.$confirm(message, "提示", {
-            confirmButtonText: "确定",
-            showCancelButton: false,
-            type: "warning"
+          //跳转到支付页
+          this.$router.push({
+            path: "/air/pay",
+            query: { id }
           });
-        });
+        }
+      });
+      // .catch(err => {
+      //   const { message } = err.response.data;
+
+      //   // 警告提示
+      //   this.$confirm(message, "提示", {
+      //     confirmButtonText: "确定",
+      //     showCancelButton: false,
+      //     type: "warning"
+      //   });
+      // });
     }
   },
   // 计算总价格
@@ -222,7 +231,7 @@ export default {
       price += this.data.airport_tax_audlet * len;
 
       // 触发设置总金额事件
-      this.$emit("setAllPrice", price);
+      this.$emit("setAllPrice", price, len);
 
       return price;
     }
